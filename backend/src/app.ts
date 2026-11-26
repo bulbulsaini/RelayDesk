@@ -19,6 +19,13 @@ import { NotFoundError } from './utils/errors';
 
 export function createApp(pool: DbPool) {
   const app = express();
+
+  app.get('/', (_req, res) => {
+  res.json({
+    message: 'RelayDesk API is running!',
+    status: 'success',
+  });
+});
   const eventBus = new TicketEventBus();
   registerTicketEventListeners(eventBus, pool);
 
