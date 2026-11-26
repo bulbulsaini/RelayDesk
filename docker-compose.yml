@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: relaydesk-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: relaydesk
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d relaydesk']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build:
+      context: ./server
+    container_name: relaydesk-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/relaydesk
+      JWT_SECRET: change-this-secret-for-real-deployments
+      JWT_EXPIRES_IN: 7d
+      CLIENT_ORIGIN: http://localhost:3000
+    ports:
+      - '4000:4000'
+
+  client:
+    build:
+      context: ./client
+    container_name: relaydesk-web
+    depends_on:
+      - server
+    ports:
+      - '3000:80'
+
+volumes:
+  pgdata:
