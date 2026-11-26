@@ -11,6 +11,10 @@ export const env = {
   clientOrigin:
     process.env.CLIENT_ORIGIN || 'http://localhost:5173',
 
+  jwtSecret: process.env.JWT_SECRET || '',
+
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1d',
+
   smtp: {
     host: process.env.SMTP_HOST || '',
     port: Number(process.env.SMTP_PORT) || 587,
