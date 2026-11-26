@@ -104,16 +104,6 @@ docker compose exec server node -e "require('./dist/db/seed.js')"
 
 ---
 
-## Demo Credentials (Seeded)
-
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| Admin | `admin@relaydesk.dev` | `Admin@123` |
-| User | `maya@relaydesk.dev` | `User@123` |
-| User | `liam@relaydesk.dev` | `User@123` |
-
----
-
 ## Running Automated Tests
 
 The backend test suite executes against the real `schema.sql` using an isolated in-memory PostgreSQL engine (`pg-mem`), so it runs reliably without modifying your local database:
