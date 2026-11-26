@@ -1,6 +1,6 @@
 
 import bcrypt from 'bcryptjs';
-import { DbPool } from '../config/db';
+import { DbPool } from '../config/db.js';
 import { applySchema } from './migrate';
 
 export async function seedDatabase(pool: DbPool): Promise<void> {
