@@ -1,9 +1,15 @@
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { DbPool } from '../config/db';
 
 export async function applySchema(pool: DbPool): Promise<void> {
-  const schemaPath = path.resolve(__dirname, 'schema.sql');
+  const schemaPath = path.resolve(process.cwd(), 'src/db/schema.sql');
+
+  if (!fs.existsSync(schemaPath)) {
+    throw new Error(`Database schema file not found: ${schemaPath}`);
+  }
+
   const sql = fs.readFileSync(schemaPath, 'utf8');
   await pool.query(sql);
 }
@@ -11,6 +17,7 @@ export async function applySchema(pool: DbPool): Promise<void> {
 if (require.main === module) {
   import('../config/db').then(async ({ createPool }) => {
     const pool = createPool();
+
     try {
       await applySchema(pool);
       console.log('Database schema applied.');
