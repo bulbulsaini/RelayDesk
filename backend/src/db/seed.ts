@@ -271,7 +271,7 @@ export async function seedDatabase(pool: DbPool): Promise<void> {
 
 // Run seed directly from the terminal.
 if (require.main === module) {
-  import('../config/db').then(async ({ createPool }) => {
+  import('../config/db.js').then(async ({ createPool }) => {
     const pool = createPool();
 
     try {
