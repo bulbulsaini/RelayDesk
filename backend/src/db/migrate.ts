@@ -1,8 +1,8 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import('../config/db.js')
 
+import { DbPool } from '../config/db.js';
 export async function applySchema(pool: DbPool): Promise<void> {
   const schemaPath = path.resolve(process.cwd(), 'src/db/schema.sql');
 
