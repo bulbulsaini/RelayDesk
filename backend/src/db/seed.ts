@@ -18,8 +18,10 @@ export async function seedDatabase(pool: DbPool): Promise<void> {
   const adminRes = await pool.query<{ id: number }>(
     `INSERT INTO users (name, email, password_hash, role)
      VALUES ($1, $2, $3, 'admin')
-     ON CONFLICT (email)
-     DO UPDATE SET role = 'admin'
+   ON CONFLICT (email)
+DO UPDATE SET
+  role = 'admin',
+  password_hash = EXCLUDED.password_hash
      RETURNING id`,
     ['RelayDesk Admin', 'admin@relaydesk.dev', adminHash]
   );
